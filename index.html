@@ -368,51 +368,58 @@
     <h1 class="title pb-3 mb-5">Get In Touch</h1>
     <p class="mb-4">Ready to transform your manual workflows into intelligent, automated systems? Whether you're looking for a custom web solution, school management software, or strategic IT advice, I’m here to help you scale. Drop me a message below.</p>
     
-    <form id="contactForm" action="/api/contact" method="POST">
-        <div class="row g-3">
-            <div class="col-md-6">
-                <div class="form-floating">
-                    <input type="text" name="name" class="form-control border-0 bg-secondary" id="name" placeholder="Your Name" required>
-                    <label for="name">Your Name</label>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-floating">
-                    <input type="email" name="email" class="form-control border-0 bg-secondary" id="email" placeholder="Your Email" required>
-                    <label for="email">Your Email</label>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-floating">
-                    <select name="service" class="form-select border-0 bg-secondary" id="service" required>
-                        <option value="" selected disabled>Select the service you need</option>
-                        <option value="web-solutions">Intelligent Web Solutions</option>
-                        <option value="workflow-opt">Technical Workflow Optimization</option>
-                        <option value="ems">School Management Systems (EMS)</option>
-                        <option value="training">Digital Capacity Building & Training</option>
-                        <option value="seo">Technical SEO & Visibility</option>
-                        <option value="other">Other Inquiry</option>
-                    </select>
-                    <label for="service">How can I help you?</label>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-floating">
-                    <input type="text" name="subject" class="form-control border-0 bg-secondary" id="subject" placeholder="Subject" required>
-                    <label for="subject">Subject</label>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="form-floating">
-                    <textarea name="message" class="form-control border-0 bg-secondary" placeholder="Leave a message here" id="message" style="height: 150px" required></textarea>
-                    <label for="message">Project Details</label>
-                </div>
-            </div>
-            <div class="col-12">
-                <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+    
+    <form id="contactForm">
+    <input type="hidden" name="access_key" value="4684cc81-88eb-43ef-a618-94b020186d4d">
+    
+    <input type="hidden" name="from_name" value="Yusuf Portfolio Inquiry">
+    
+    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
+
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="text" name="name" class="form-control border-0 bg-secondary" id="name" placeholder="Your Name" required>
+                <label for="name">Your Name</label>
             </div>
         </div>
-    </form>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="email" name="email" class="form-control border-0 bg-secondary" id="email" placeholder="Your Email" required>
+                <label for="email">Your Email</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <select name="service" class="form-select border-0 bg-secondary" id="service" required>
+                    <option value="" selected disabled>Select the service you need</option>
+                    <option value="web-solutions">Intelligent Web Solutions</option>
+                    <option value="workflow-opt">Technical Workflow Optimization</option>
+                    <option value="ems">School Management Systems (EMS)</option>
+                    <option value="training">Digital Capacity Building & Training</option>
+                    <option value="seo">Technical SEO & Visibility</option>
+                    <option value="other">Other Inquiry</option>
+                </select>
+                <label for="service">How can I help you?</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <input type="text" name="subject" class="form-control border-0 bg-secondary" id="subject" placeholder="Subject" required>
+                <label for="subject">Subject</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                <textarea name="message" class="form-control border-0 bg-secondary" placeholder="Leave a message here" id="message" style="height: 150px" required></textarea>
+                <label for="message">Project Details</label>
+            </div>
+        </div>
+        <div class="col-12">
+            <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
+        </div>
+    </div>
+</form>
 </section>
                     <!-- Contact End -->
 
@@ -434,7 +441,7 @@
 							
                             <!--/*** The author’s attribution link must remain intact in the template. ***/-->
                             <!--/*** If you wish to remove this credit link, please purchase the Pro Version . ***/-->
-                            <p class="m-0">&copy; All Rights Reserved. Designed by <a href="https://htmlcodex.com">HTML Codex</a></p>
+                            <p class="m-0">&copy; All Rights Reserved. Designed by <a href="https://htmlcodex.com">Yusuf Mai</a></p>
                         </div>
                     </section>
                     <!-- Footer End -->
@@ -448,54 +455,64 @@
         
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-        <script src="lib/wow/wow.min.js"></script>
-        <script src="lib/typed/typed.min.js"></script>
-        <script src="lib/easing/easing.min.js"></script>
-        <script src="lib/waypoints/waypoints.min.js"></script>
-        <script src="lib/counterup/counterup.min.js"></script>
-        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
-        <script src="lib/isotope/isotope.pkgd.min.js"></script>
-        <script src="lib/lightbox/js/lightbox.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+<script src="lib/wow/wow.min.js"></script>
+<script src="lib/typed/typed.min.js"></script>
+<script src="lib/easing/easing.min.js"></script>
+<script src="lib/waypoints/waypoints.min.js"></script>
+<script src="lib/counterup/counterup.min.js"></script>
+<script src="lib/owlcarousel/owl.carousel.min.js"></script>
+<script src="lib/isotope/isotope.pkgd.min.js"></script>
+<script src="lib/lightbox/js/lightbox.min.js"></script>
 
-        <script src="js/main.js"></script>
+<script src="js/main.js"></script>
 
-        <script>
-            document.getElementById('contactForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                const formData = new FormData(this);
-                const btn = this.querySelector('button');
-                const originalText = btn.innerText;
-                
-                btn.innerText = "Sending...";
-                btn.disabled = true;
+<script>
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const form = this;
+        const btn = form.querySelector('button');
+        const originalText = btn.innerText;
+        
+        // Visual feedback for the user
+        btn.innerText = "Sending...";
+        btn.disabled = true;
 
-                fetch('/api/contact', {
-                    method: 'POST',
-                    body: formData
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    if(data.status === 'success') {
-                        alert("Message sent! I'll be in touch soon.");
-                        document.getElementById('contactForm').reset();
-                    } else {
-                        alert("Error: " + data.message);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert("Submission failed. Please check your internet connection or try again later.");
-                })
-                .finally(() => {
-                    btn.innerText = originalText;
-                    btn.disabled = false;
-                });
-            });
-        </script>
+        const formData = new FormData(form);
+        const object = Object.fromEntries(formData);
+        const json = JSON.stringify(object);
+
+        fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        })
+        .then(async (response) => {
+            let res = await response.json();
+            if (response.status === 200) {
+                // SUCCESS: Web3Forms sends 200 for successful delivery
+                alert("Message sent! I'll be in touch soon.");
+                form.reset();
+            } else {
+                // API Error (e.g., invalid API key)
+                alert("Error: " + res.message);
+            }
+        })
+        .catch(error => {
+            // Network or Fetch Error
+            console.error('Error:', error);
+            alert("Submission failed. Please check your internet connection.");
+        })
+        .finally(() => {
+            // Restore button state
+            btn.innerText = originalText;
+            btn.disabled = false;
+        });
+    });
+</script>
     </body>
 </html>
