@@ -455,64 +455,61 @@
         
         <!-- JavaScript Libraries -->
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-<script src="lib/wow/wow.min.js"></script>
-<script src="lib/typed/typed.min.js"></script>
-<script src="lib/easing/easing.min.js"></script>
-<script src="lib/waypoints/waypoints.min.js"></script>
-<script src="lib/counterup/counterup.min.js"></script>
-<script src="lib/owlcarousel/owl.carousel.min.js"></script>
-<script src="lib/isotope/isotope.pkgd.min.js"></script>
-<script src="lib/lightbox/js/lightbox.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+        <script src="lib/wow/wow.min.js"></script>
+        <script src="lib/typed/typed.min.js"></script>
+        <script src="lib/easing/easing.min.js"></script>
+        <script src="lib/waypoints/waypoints.min.js"></script>
+        <script src="lib/counterup/counterup.min.js"></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+        <script src="lib/isotope/isotope.pkgd.min.js"></script>
+        <script src="lib/lightbox/js/lightbox.min.js"></script>
 
-<script src="js/main.js"></script>
+        <script src="js/main.js"></script>
 
-<script>
-    document.getElementById('contactForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const form = this;
-        const btn = form.querySelector('button');
-        const originalText = btn.innerText;
-        
-        // Visual feedback for the user
-        btn.innerText = "Sending...";
-        btn.disabled = true;
+        <script>
+            const form = document.getElementById('contactForm');
 
-        const formData = new FormData(form);
-        const object = Object.fromEntries(formData);
-        const json = JSON.stringify(object);
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const formData = new FormData(form);
+                const object = Object.fromEntries(formData);
+                const json = JSON.stringify(object);
 
-        fetch('https://api.web3forms.com/submit', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: json
-        })
-        .then(async (response) => {
-            let res = await response.json();
-            if (response.status === 200) {
-                // SUCCESS: Web3Forms sends 200 for successful delivery
-                alert("Message sent! I'll be in touch soon.");
-                form.reset();
-            } else {
-                // API Error (e.g., invalid API key)
-                alert("Error: " + res.message);
-            }
-        })
-        .catch(error => {
-            // Network or Fetch Error
-            console.error('Error:', error);
-            alert("Submission failed. Please check your internet connection.");
-        })
-        .finally(() => {
-            // Restore button state
-            btn.innerText = originalText;
-            btn.disabled = false;
-        });
-    });
-</script>
+                // Change button text to show it's working
+                const btn = form.querySelector('button[type="submit"]');
+                const originalText = btn.innerHTML;
+                btn.innerHTML = "Sending...";
+                btn.disabled = true;
+
+                fetch('https://api.web3forms.com/submit', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'application/json'
+                        },
+                        body: json
+                    })
+                    .then(async (response) => {
+                        let json = await response.json();
+                        if (response.status == 200) {
+                            alert("Message sent! I'll be in touch soon.");
+                            form.reset();
+                        } else {
+                            console.log(response);
+                            alert("Error: " + json.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                        alert("Something went wrong. Please try again.");
+                    })
+                    .then(function() {
+                        btn.innerHTML = originalText;
+                        btn.disabled = false;
+                    });
+            });
+        </script>
     </body>
 </html>
+ 
