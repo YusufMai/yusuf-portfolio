@@ -466,25 +466,36 @@
 
         <script src="js/main.js"></script>
 
-        // ... keep everything the same until the fetch line ...
+        <script>
+  const form = document.getElementById('contact-form'); // Make sure your <form> has id="contact-form"
 
-fetch('/contact', {  // <--- Change this from the web3forms link to your local route
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-    },
-    body: json
-})
-.then(async (response) => {
-    if (response.ok) { // Check if Node.js returned success
-        alert("Message sent! I'll be in touch soon.");
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(form);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+
+    fetch('/contact', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: json
+    })
+    .then(async (response) => {
+      if (response.ok) {
+        alert("Success! Your message reached HiveTechNG.");
         form.reset();
-    } else {
-        alert("Error: Message could not be saved.");
-    }
-})
-// ... keep the rest of the error handling ...
+      } else {
+        alert("Server Error. Please try again later.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("Something went wrong.");
+    });
+  });
+</script>
     </body>
 </html>
  
