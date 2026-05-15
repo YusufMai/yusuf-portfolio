@@ -369,13 +369,7 @@
     <p class="mb-4">Ready to transform your manual workflows into intelligent, automated systems? Whether you're looking for a custom web solution, school management software, or strategic IT advice, I’m here to help you scale. Drop me a message below.</p>
     
     
-    <form id="contactForm">
-    <input type="hidden" name="access_key" value="4684cc81-88eb-43ef-a618-94b020186d4d">
-    
-    <input type="hidden" name="from_name" value="Yusuf Portfolio Inquiry">
-    
-    <input type="checkbox" name="botcheck" class="hidden" style="display: none;">
-
+    <form id="contactForm" action="/contact" method="POST">
     <div class="row g-3">
         <div class="col-md-6">
             <div class="form-floating">
@@ -383,12 +377,14 @@
                 <label for="name">Your Name</label>
             </div>
         </div>
+
         <div class="col-md-6">
             <div class="form-floating">
                 <input type="email" name="email" class="form-control border-0 bg-secondary" id="email" placeholder="Your Email" required>
                 <label for="email">Your Email</label>
             </div>
         </div>
+
         <div class="col-12">
             <div class="form-floating">
                 <select name="service" class="form-select border-0 bg-secondary" id="service" required>
@@ -403,18 +399,21 @@
                 <label for="service">How can I help you?</label>
             </div>
         </div>
+
         <div class="col-12">
             <div class="form-floating">
                 <input type="text" name="subject" class="form-control border-0 bg-secondary" id="subject" placeholder="Subject" required>
                 <label for="subject">Subject</label>
             </div>
         </div>
+
         <div class="col-12">
             <div class="form-floating">
                 <textarea name="message" class="form-control border-0 bg-secondary" placeholder="Leave a message here" id="message" style="height: 150px" required></textarea>
                 <label for="message">Project Details</label>
             </div>
         </div>
+
         <div class="col-12">
             <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
         </div>
@@ -467,49 +466,25 @@
 
         <script src="js/main.js"></script>
 
-        <script>
-            const form = document.getElementById('contactForm');
+        // ... keep everything the same until the fetch line ...
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(form);
-                const object = Object.fromEntries(formData);
-                const json = JSON.stringify(object);
-
-                // Change button text to show it's working
-                const btn = form.querySelector('button[type="submit"]');
-                const originalText = btn.innerHTML;
-                btn.innerHTML = "Sending...";
-                btn.disabled = true;
-
-                fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: json
-                    })
-                    .then(async (response) => {
-                        let json = await response.json();
-                        if (response.status == 200) {
-                            alert("Message sent! I'll be in touch soon.");
-                            form.reset();
-                        } else {
-                            console.log(response);
-                            alert("Error: " + json.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                        alert("Something went wrong. Please try again.");
-                    })
-                    .then(function() {
-                        btn.innerHTML = originalText;
-                        btn.disabled = false;
-                    });
-            });
-        </script>
+fetch('/contact', {  // <--- Change this from the web3forms link to your local route
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+    },
+    body: json
+})
+.then(async (response) => {
+    if (response.ok) { // Check if Node.js returned success
+        alert("Message sent! I'll be in touch soon.");
+        form.reset();
+    } else {
+        alert("Error: Message could not be saved.");
+    }
+})
+// ... keep the rest of the error handling ...
     </body>
 </html>
  
