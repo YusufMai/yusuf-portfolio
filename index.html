@@ -467,7 +467,8 @@
         <script src="js/main.js"></script>
 
         <script>
-  const form = document.getElementById('contact-form'); // Make sure your <form> has id="contact-form"
+  // Match the ID exactly: contactForm
+  const form = document.getElementById('contactForm'); 
 
   form.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -487,12 +488,14 @@
         alert("Success! Your message reached HiveTechNG.");
         form.reset();
       } else {
+        const errorText = await response.text();
+        console.error("Server says:", errorText);
         alert("Server Error. Please try again later.");
       }
     })
     .catch(error => {
       console.error("Error:", error);
-      alert("Something went wrong.");
+      alert("Something went wrong. Check your internet connection.");
     });
   });
 </script>

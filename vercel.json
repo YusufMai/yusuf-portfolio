@@ -9,7 +9,15 @@
     { "src": "lib/**", "use": "@vercel/static" }
   ],
   "routes": [
-    { "src": "/contact", "dest": "src/app.js" },
-    { "src": "/(.*)", "dest": "/$1" }
+    { 
+      "src": "/contact", 
+      "methods": ["POST"], 
+      "dest": "src/app.js" 
+    },
+    { "src": "/css/(.*)", "dest": "/css/$1" },
+    { "src": "/js/(.*)", "dest": "/js/$1" },
+    { "src": "/img/(.*)", "dest": "/img/$1" },
+    { "src": "/lib/(.*)", "dest": "/lib/$1" },
+    { "src": "/(.*)", "dest": "/index.html" }
   ]
 }

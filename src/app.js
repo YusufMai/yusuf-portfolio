@@ -4,41 +4,56 @@ const mongoose = require('mongoose');
 const path = require('path');
 const app = express();
 
-// 1. Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI)
-    .then(() => console.log('Connected to HiveTechNG Cloud Database'))
-    .catch(err => console.error('Database connection error:', err));
+// 1. Improved Connection Logic (Handles the "ENOTFOUND" and "Buffering" issues)
+const connectDB = async () => {
+    if (mongoose.connection.readyState >= 1) return;
 
-// 2. Define the Blueprint for your Inquiries
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 5000, // Timeout after 5s instead of 10s
+        });
+        console.log('Connected to HiveTechNG Cloud Database');
+    } catch (err) {
+        console.error('Database connection error:', err);
+    }
+};
+
+// 2. Schema
+// 2. Updated Blueprint to include Service and Subject
 const InquirySchema = new mongoose.Schema({
     name: String,
     email: String,
+    service: String,  // Added
+    subject: String,  // Added
     message: String,
     date: { type: Date, default: Date.now }
 });
-const Inquiry = mongoose.model('Inquiry', InquirySchema);
+const Inquiry = mongoose.models.Inquiry || mongoose.model('Inquiry', InquirySchema);
 
-// Middleware
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static(path.join(__dirname, '../')));
-
-// 3. The New Cloud-Ready Contact Route
 app.post('/contact', async (req, res) => {
     try {
+        await connectDB();
+
         const newInquiry = new Inquiry({
             name: req.body.name,
             email: req.body.email,
+            service: req.body.service, // Added
+            subject: req.body.subject, // Added
             message: req.body.message
         });
         
-        await newInquiry.save(); // Saves to MongoDB Atlas
-        res.send('<h1>Success!</h1><p>Your message reached HiveTechNG. I will get back to you soon.</p><a href="/">Go Back</a>');
+        await newInquiry.save(); 
+        res.status(200).send('Success'); // Send a simple status for the JS fetch to catch
     } catch (error) {
         console.error("Submission Error:", error);
-        res.status(500).send('Server Error. Please try again later.');
+        res.status(500).send('Server Error');
     }
 });
 
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+    app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+}
+
+module.exports = app; // Required for Vercel
