@@ -1,72 +1,44 @@
-const path = require('path');
+require('dotenv').config();
 const express = require('express');
-const fs = require('fs'); 
+const mongoose = require('mongoose');
+const path = require('path');
 const app = express();
 
-// Middlewares to handle Form Data from your website
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// 1. Connect to MongoDB Atlas
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('Connected to HiveTechNG Cloud Database'))
+    .catch(err => console.error('Database connection error:', err));
 
-// Serve your website files (HTML, CSS, JS/main.js) from the root folder
+// 2. Define the Blueprint for your Inquiries
+const InquirySchema = new mongoose.Schema({
+    name: String,
+    email: String,
+    message: String,
+    date: { type: Date, default: Date.now }
+});
+const Inquiry = mongoose.model('Inquiry', InquirySchema);
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 app.use(express.static(path.join(__dirname, '../')));
 
-// Path to save your client inquiries
-const messagesFilePath = path.join(__dirname, '../inquiries.json');
-
-// Ensure the inquiries file exists so the server doesn't error out
-if (!fs.existsSync(messagesFilePath)) {
-    fs.writeFileSync(messagesFilePath, '[]');
-}
-
-// --- CONTACT FORM ROUTE ---
-app.post('/contact', (req, res) => {
-    // ADD THIS LINE HERE:
-    console.log("DEBUG: Raw Form Data Received ->", req.body);
-
-    const { name, email, service, subject, message } = req.body;
-    // ... rest of your code
+// 3. The New Cloud-Ready Contact Route
+app.post('/contact', async (req, res) => {
     try {
-        // Read existing messages
-        const data = fs.readFileSync(messagesFilePath);
-        const inquiries = JSON.parse(data);
-
-        // Create the new inquiry object with a timestamp
-        const newInquiry = { 
-            name, 
-            email, 
-            service, 
-            subject, 
-            message, 
-            date: new Date().toLocaleString() 
-        };
+        const newInquiry = new Inquiry({
+            name: req.body.name,
+            email: req.body.email,
+            message: req.body.message
+        });
         
-        // Add to the list and save back to the file
-        inquiries.push(newInquiry);
-        fs.writeFileSync(messagesFilePath, JSON.stringify(inquiries, null, 2));
-
-        // Send a professional "Thank You" response
-        res.send(`
-            <div style="font-family: 'Segoe UI', sans-serif; text-align: center; padding: 100px 20px; color: #333;">
-                <h1 style="color: #007bff;">Thank You, ${name}!</h1>
-                <p style="font-size: 18px;">Your request for <strong>${service}</strong> has been received.</p>
-                <p>I will review the details and get back to you at <strong>${email}</strong> soon.</p>
-                <br>
-                <a href="/" style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Return to Portfolio</a>
-            </div>
-        `);
-
-        // Log to terminal so you see it immediately
-        console.log(`New Inquiry from: ${name} (${service})`);
-
-    } catch (err) {
-        console.error("Error saving message:", err);
-        res.status(500).send("Server Error. Please try again later.");
+        await newInquiry.save(); // Saves to MongoDB Atlas
+        res.send('<h1>Success!</h1><p>Your message reached HiveTechNG. I will get back to you soon.</p><a href="/">Go Back</a>');
+    } catch (error) {
+        console.error("Submission Error:", error);
+        res.status(500).send('Server Error. Please try again later.');
     }
 });
 
-// Start the server
-const PORT = process.env.PORT || 3000; 
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
